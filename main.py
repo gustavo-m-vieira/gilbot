@@ -12,12 +12,16 @@ def filterKey(page):
 
 def getPageKey(topic):
   topic = quote_plus(topic)
-  print(topic)
 
   pageTxt = urlopen(wikipediaSearchUrl.format(topic)).read().decode('utf-8')
   pages = json.loads(pageTxt)["pages"]
 
-  return list(map(filterKey, pages))[0]
+  pagesList = list(map(filterKey, pages))
+
+  if (len(pagesList) != 0):
+    return pagesList[0]
+
+  raise Exception('Not found topic "{}"'.format(topic))
 
 def getPageHtml(key):
   html = urlopen(wikipediaPageUrl.format(key))
@@ -34,7 +38,7 @@ def main(topic):
 
   print(firstParagraph)
 
-main('one direction')
+main('minecraft')
 
 
 
